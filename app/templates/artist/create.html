@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}New Artist{% endblock %}
+
+{% block content %}
+    <h1>Create New Artist</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="country">Country</label>
+            <select class="form-control" id="country" name="country_id">
+                <option value="">Select a country</option>
+                {% for country in countries %}
+                <option value="{{ country.id }}">{{ country.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Artist</button>
+    </form>
+{% endblock %}
+

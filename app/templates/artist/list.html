@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Artists{% endblock %}
+
+{% block content %}
+    <h1>Artists</h1>
+    <div class="row">
+        {% for artist in artists %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ artist.name }}</h5>
+                        <p class="card-text">Country: {{ artist.country.name if artist.country else 'N/A' }}</p>
+                        <a href="{{ url_for('artist.detail', artist_id=artist.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

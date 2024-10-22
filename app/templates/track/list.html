@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Tracks{% endblock %}
+
+{% block content %}
+    <h1>Tracks</h1>
+    <div class="row">
+        {% for track in tracks %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ track.title }}</h5>
+                        <p class="card-text">
+                            Duration: {{ track.duration }} minutes<br>
+                            Artist: {{ track.artist.name }}<br>
+                            Album: <a href="{{ url_for('album.detail', album_id=track.album.id) }}">{{ track.album.title }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
