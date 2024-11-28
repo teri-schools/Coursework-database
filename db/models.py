@@ -30,6 +30,13 @@ AlbumGenreAssociation = Table(
     Column("genre_id", Integer, ForeignKey("genres.id"), primary_key=True),
 )
 
+PlaylistTrackAssociation = Table(
+    "playlist_track_association",
+    Base.metadata,
+    Column("playlist_id", Integer, ForeignKey("playlists.id"), primary_key=True),
+    Column("track_id", Integer, ForeignKey("tracks.id"), primary_key=True),
+)
+
 
 class Artist(Base):
     __tablename__ = "artists"
@@ -84,6 +91,7 @@ class Track(Base):
 
     album = relationship("Album", back_populates="tracks")
     artist = relationship("Artist", back_populates="tracks")
+    playlists = relationship("Playlist", secondary=PlaylistTrackAssociation, back_populates="tracks", lazy="dynamic")
 
     def __repr__(self):
         return f"<Track(id={self.id}, title={self.title}, duration={self.duration})>"
@@ -103,7 +111,7 @@ class Genre(Base):
         return f"<Genre(id={self.id}, name={self.name})>"
 
 
-class Label(Base):
+class Label(Base):  # Видавництво
     __tablename__ = "labels"
 
     id = Column(Integer, primary_key=True)
@@ -126,9 +134,26 @@ class Country(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), unique=True, nullable=False)
+    code = Column(String(3), unique=True, nullable=False)  # ISO country code
+    population = Column(Integer)  # Population of the country
+    area = Column(Float)  # Area of the country in square kilometers
 
     artists = relationship("Artist", back_populates="country")
     labels = relationship("Label", back_populates="country")
 
     def __repr__(self):
-        return f"<Country(id={self.id}, name={self.name})>"
+        return f"<Country(id={self.id}, name={self.name}, code={self.code}, population={self.population}, area={self.area})>"
+
+
+class Playlist(Base):
+    __tablename__ = "playlists"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(150), nullable=False, unique=True)
+
+    tracks = relationship(
+        "Track", secondary="playlist_track_association", back_populates="playlists"
+    )
+
+    def __repr__(self):
+        return f"<Playlist(id={self.id}, name={self.name})>"

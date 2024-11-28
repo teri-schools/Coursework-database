@@ -63,7 +63,7 @@ def create_fake_data(session: Session, num_records=10):
 
 
 if __name__ == "__main__":
-    from db.crud import get_sessionmaker
+    from db.utils import get_sessionmaker
 
     sessionmaker = get_sessionmaker(autoflush=False)
 

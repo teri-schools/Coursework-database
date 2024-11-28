@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Genres{% endblock %}
+
+{% block content %}
+    <h1>Genres</h1>
+    <ul>
+        {% for genre in genres %}
+            <li>
+                {{ genre.name }}
+                <a href="{{ url_for('genre.edit', genre_id=genre.id) }}">Edit</a>
+                <form action="{{ url_for('genre.delete', genre_id=genre.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

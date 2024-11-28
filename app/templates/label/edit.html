@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Label{% endblock %}
+
+{% block content %}
+    <h1>Edit Label</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ label.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="country_id">Country</label>
+            <select class="form-control" id="country_id" name="country_id" required>
+                {% for country in countries %}
+                <option value="{{ country.id }}" {% if country.id == label.country_id %}selected{% endif %}>{{ country.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Label</button>
+    </form>
+    <form action="{{ url_for('label.delete', label_id=label.id) }}" method="POST" style="display: inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this label?')">Delete Label</button>
+    </form>
+{% endblock %}
